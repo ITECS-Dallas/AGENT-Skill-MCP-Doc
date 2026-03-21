@@ -4,3 +4,7 @@ Thumbs.db
 .vscode/
 *.swp
 *.swo
+.env
+.env.*
+!.env.example
+.serena/
