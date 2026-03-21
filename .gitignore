@@ -1,10 +1,23 @@
+# OS metadata
 .DS_Store
 Thumbs.db
+
+# Editors and IDEs
 .idea/
 .vscode/
 *.swp
 *.swo
+*~
+
+# Local environment / secrets
 .env
 .env.*
 !.env.example
+
+# Local tool state
 .serena/
+
+# Logs and temporary files
+*.log
+*.tmp
+*.bak

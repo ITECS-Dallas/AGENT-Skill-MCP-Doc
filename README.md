@@ -1,283 +1,151 @@
 # AGENT / Skill / MCP Documentation Source of Truth
 
-This repository is a **GitHub-ready source-of-truth documentation bundle** for running and standardizing an AI agent CLI environment—especially Codex CLI style setups that rely on:
+A public, GitHub-friendly source-of-truth repository for **AI agent CLI operating standards**.
+
+This repository documents how to structure and govern an agent-centric working environment, especially around:
 
 - layered instructions
-- project `AGENTS.md` guidance
+- `AGENTS.md` standards
 - reusable skills
-- MCP integrations
-- Serena-based code navigation
-- bootstrap overview documents
-- model/workflow conventions
-- reusable templates and patterns
+- MCP setup and usage
+- Serena integration
+- operator workflows
+- reusable templates
+- provenance and portability rules
 
-It is intentionally a **documentation-first repo**, not an application codebase.
-Its job is to preserve the *portable operating knowledge* needed to stand up, govern, and reuse an AI-agent workflow across projects without carrying over secrets, machine-specific paths, or one-off client details.
-
----
-
-## What this repository is for
-
-Use this repo as the canonical reference for:
-
-- how AI agent CLI instructions should be layered
-- what belongs in global config vs project `AGENTS.md`
-- how to design, organize, and validate skills
-- which MCPs are required and how they should be used
-- how Serena should fit into repo workflows
-- how to write bootstrap overviews for complex projects
-- how to choose models and reasoning levels pragmatically
-- how to keep reusable operator documentation portable and sanitized
-
-In short: this repo is meant to be the **source of truth for agent-operating documentation** covering **agents, skills, MCPs, instructions, workflows, templates, and supporting references**.
+It is intentionally a **documentation-first repo** rather than an application or framework project.
 
 ---
 
-## Who this repo is for
+## Why this repo exists
 
-This repository is useful for:
+Operational knowledge for AI agent CLI setups usually ends up scattered across:
 
-- operators bootstrapping a fresh AI agent CLI environment
-- teams defining standards for `AGENTS.md`, skills, and MCP usage
-- maintainers building internal source-of-truth docs for agent workflows
-- repo owners who want reusable templates instead of copy-pasting from one project to another
-- skill authors who need a clean blueprint for packaging repeatable task families
-
----
-
-## What problem this solves
-
-Real AI-agent CLI installations accumulate useful knowledge in scattered places:
-
-- user-level config
-- repo-local `AGENTS.md` files
-- system and repo-local skills
+- local config
+- repo-level instructions
 - MCP registrations
-- Serena config
-- bootstrap notes
-- model defaults and reasoning conventions
-- operator habits that never make it into official docs
+- skills
+- tool-specific notes
+- onboarding docs
+- team habits that never become formal documentation
 
-That knowledge is valuable, but it is usually tied to:
+That makes reuse difficult.
 
-- one machine
-- one organization
-- one repository
-- one deployment topology
-- one set of credentials or local paths
-
-This repo distills that knowledge into a **portable, sanitized, reusable documentation set** that can be versioned in GitHub and reused across environments.
+This repo exists to turn that scattered knowledge into a **portable, sanitized, versioned reference set** that can serve as a long-term source of truth in GitHub.
 
 ---
 
-## Core principles behind this repo
+## What this repo is
 
-This documentation set is designed around a few strong rules:
+This repo is a maintained documentation bundle for teams who want consistent standards for:
 
-1. **Portable over literal**  
-   Preserve intent and structure, not environment-specific wording.
-
-2. **Sanitized by default**  
-   No secrets, tokens, auth state, host-specific paths, or internal-only identifiers should live here.
-
-3. **Layered instructions**  
-   Global behavior, Codex config, bootstrap overviews, `AGENTS.md`, skills, and MCP config each have different jobs.
-
-4. **Templates over fragile copies**  
-   When structure matters more than values, provide a template.
-
-5. **Blueprints over overfitting**  
-   Repo-specific skills or runbooks should become generalized blueprints, not transplanted blindly.
-
-6. **Explicit tool expectations**  
-   If a workflow depends on Playwright, Serena, or Context7, say so clearly.
-
-7. **Documentation with provenance**  
-   The repo explains where guidance came from and what was intentionally excluded.
+- how instructions are layered
+- what belongs in global config vs project files
+- how to author and organize skills
+- which MCPs should be treated as baseline tooling
+- how Serena fits into code-navigation workflows
+- how to package templates for reuse
+- how to keep guidance portable and safe to publish
 
 ---
 
-## Repository layout
+## Who should use it
 
-| Path | Purpose |
+This repository is intended for:
+
+- teams bootstrapping a new AI agent CLI environment
+- maintainers writing or standardizing `AGENTS.md`
+- operators defining MCP expectations and onboarding rules
+- skill authors creating reusable task-family guidance
+- documentation owners building an internal or public source-of-truth repo
+
+---
+
+## Repository map
+
+| Path | What it contains |
 |---|---|
-| `00-overview/` | Why this bundle exists, how the audit was done, and how instruction layers should be separated |
-| `10-agents/` | Portable guidance for writing repo-level `AGENTS.md` files |
-| `20-skills/` | Skill design guidance, reusable skill concepts, and generalized blueprints |
-| `30-mcp/` | MCP inventory, setup expectations, and onboarding/usage guidance |
-| `40-instructions/` | Guidance for bootstrap overview docs and Serena integration |
-| `50-workflows/` | Operator playbooks, safety rules, model usage guidance, and portability rules |
-| `60-templates/` | Reusable starter templates for `AGENTS.md`, `SKILL.md`, config, and bootstrap docs |
-| `70-reference/` | Supporting reference notes about discovered installation layout and model catalog patterns |
-| `99-inventory/` | Provenance, source inventory, and handling decisions for derived materials |
+| `00-overview/` | Scope, audit method, and instruction-layering guidance |
+| `10-agents/` | Reusable guidance for project `AGENTS.md` files |
+| `20-skills/` | Skill design guidance, catalogs, and blueprints |
+| `30-mcp/` | MCP discovery, setup, and onboarding guidance |
+| `40-instructions/` | Bootstrap overview and Serena integration patterns |
+| `50-workflows/` | Operator playbooks, safety rules, and model usage guidance |
+| `60-templates/` | Reusable starter templates for `AGENTS.md`, `SKILL.md`, and config |
+| `70-reference/` | Supporting reference notes about installation layout and model catalogs |
+| `99-inventory/` | Source provenance, handling decisions, and limitations |
+
+Top-level files:
+- `README.md` - public landing page and repo orientation
+- `AGENTS.md` - repo-local guidance for contributors and coding agents
+- `LICENSE` - repository license
+- `.env.example` - safe local config example
 
 ---
 
-## Document index
-
-### `00-overview/`
-
-- `00-overview/method-and-scope.md`  
-  Explains the audit method, reuse rules, classification rubric, and non-goals.
-- `00-overview/instruction-layering.md`  
-  Defines the recommended split between base behavior, config, bootstrap overviews, `AGENTS.md`, skills, and tool config.
-
-### `10-agents/`
-
-- `10-agents/README.md`  
-  Explains what a portable `AGENTS.md` should own and what it should leave elsewhere.
-- `10-agents/global-vs-project.md`  
-  Clarifies the split between cross-project guidance and repo-local operating rules.
-
-### `20-skills/`
-
-- `20-skills/README.md`  
-  Summarizes discovered portable skill patterns and how to reuse them safely.
-- `20-skills/reusable-skills-catalog.md`  
-  Catalog of directly reusable skill ideas and generalized blueprints.
-- `20-skills/skill-authoring-guide.md`  
-  Practical guidance for building concise, triggerable, maintainable skills.
-- `20-skills/skill-blueprints.md`  
-  Blueprints for docs lookup, installer, audit, runtime-ops, domain-ops, and content/SEO skills.
-
-### `30-mcp/`
-
-- `30-mcp/configured-mcps.md`  
-  Sanitized view of the MCPs discovered and what they mean operationally.
-- `30-mcp/required-local-mcp-setup.md`  
-  Baseline install and verification guidance for Playwright, Serena, and Context7.
-- `30-mcp/usage-and-onboarding.md`  
-  Rules for when to use which MCP and how to document MCP expectations.
-
-### `40-instructions/`
-
-- `40-instructions/project-bootstrap-overview-pattern.md`  
-  Pattern for writing a high-level project/system bootstrap overview.
-- `40-instructions/serena-integration-guide.md`  
-  Guidance for using Serena as a first-class code navigation and editing layer.
-
-### `50-workflows/`
-
-- `50-workflows/model-usage-guidance.md`  
-  Heuristics for model family selection and reasoning effort.
-- `50-workflows/operator-playbooks.md`  
-  Step-by-step workflows for discovery, docs-backed changes, skills, audits, runtime ops, and new installs.
-- `50-workflows/safety-and-portability-rules.md`  
-  Safety, portability, documentation, and release rules worth carrying forward.
-
-### `60-templates/`
-
-- `60-templates/AGENTS.template.md`  
-  Starter template for a strong repo-level `AGENTS.md`.
-- `60-templates/SKILL.template.md`  
-  Starter template for a reusable skill package, including `SKILL.md` and `agents/openai.yaml`.
-- `60-templates/config-and-bootstrap.templates.md`  
-  Templates for `config.toml`, bootstrap overviews, environment notes, and Serena project config.
-
-### `70-reference/`
-
-- `70-reference/codex-cli-layout.md`  
-  Reference map of what tends to exist under `~/.codex/`, `~/.serena/`, and `~/.mcp/`.
-- `70-reference/discovered-model-catalog.md`  
-  Snapshot-style model catalog summary with stable takeaways.
-
-### `99-inventory/`
-
-- `99-inventory/source-inventory.md`  
-  Provenance record showing what source categories were found, how they were handled, and why.
-
----
-
-## What this repo contains
-
-This bundle covers seven major content areas:
+## What is inside
 
 ### 1. Instruction architecture
-How to separate:
-
-- base model behavior
+Guidance for separating:
+- base behavior
 - user/profile config
 - bootstrap overviews
-- repo `AGENTS.md`
+- project `AGENTS.md`
 - skills
-- tool-specific config
+- tool-specific configuration
 
-### 2. `AGENTS.md` guidance
-How to write repo-local operating rules that are:
-
-- useful
-- bounded
-- not overloaded with architecture or secrets
-- aligned with project tooling and validation expectations
+### 2. `AGENTS.md` standards
+Guidance for writing repo-local rules that are:
+- concise
+- operationally useful
+- specific to the repo
+- not overloaded with secrets or large architecture narratives
 
 ### 3. Skills
-How to:
+Guidance for designing skills that:
+- trigger cleanly
+- stay concise
+- use progressive disclosure
+- keep references/scripts/assets separate from top-level instructions
 
-- identify repeatable task families
-- package them as reusable skills
-- keep `SKILL.md` concise
-- move detail into references/scripts/assets
-- document dependencies explicitly
+### 4. MCP guidance
+Standards for:
+- documenting MCP purpose
+- installing required MCPs
+- describing trigger conditions
+- handling auth safely
+- keeping tool expectations explicit
 
-### 4. MCP strategy
-How to:
+### 5. Serena guidance
+Guidance for treating Serena as a first-class semantic navigation layer rather than an afterthought.
 
-- define the baseline MCP set
-- assign each MCP a clear purpose
-- avoid hidden auth in committed files
-- document trigger conditions and validation steps
+### 6. Workflows and safety rules
+Playbooks for discovery, docs-backed implementation, audits, runtime operations, and new-environment bootstrap.
 
-### 5. Serena integration
-How to:
-
-- activate Serena intentionally
-- use symbol-aware navigation first
-- avoid unnecessary broad file reads
-- treat onboarding and project memory deliberately
-
-### 6. Operator workflows
-How to approach:
-
-- discovery
-- docs-backed implementation
-- audits
-- runtime operations
-- new environment bootstrap
-
-### 7. Reusable templates
-How to start new repos or environments from a stable template instead of rebuilding structure from scratch.
+### 7. Templates and provenance
+Reusable templates plus a clear inventory of where the bundled guidance came from and how it was transformed.
 
 ---
 
-## Baseline MCP expectation
+## Recommended baseline MCP set
 
-For most software-oriented AI agent CLI setups, this repo assumes the following baseline MCP trio should be installed and documented:
+For most software-oriented AI agent CLI environments, this repo recommends a baseline trio:
 
-- **Playwright** — rendered-page and browser automation checks
-- **Serena** — semantic code navigation, activation, and precise edits
-- **Context7** — current library/framework documentation lookup
+- **Playwright** - rendered-page and browser automation validation
+- **Serena** - semantic code navigation and precise edits
+- **Context7** - current official library/framework documentation lookup
 
-These expectations are documented in:
-
+See:
 - `30-mcp/required-local-mcp-setup.md`
 - `30-mcp/usage-and-onboarding.md`
+- `60-templates/config-and-bootstrap.templates.md`
 - `10-agents/README.md`
-- `60-templates/AGENTS.template.md`
-
-### Recommended behavioral rule
-
-If a repo depends on these tools, its `AGENTS.md` should say so explicitly:
-
-- Playwright must be used when rendered/browser/runtime validation matters.
-- Serena must be activated before code-navigation or code-editing work begins.
-- Context7 must be used before making framework- or library-dependent changes.
 
 ---
 
-## Recommended reading paths
+## Suggested reading order
 
-### If you are brand new to this repo
-
+### If you are new here
 1. `README.md`
 2. `00-overview/method-and-scope.md`
 3. `00-overview/instruction-layering.md`
@@ -285,123 +153,116 @@ If a repo depends on these tools, its `AGENTS.md` should say so explicitly:
 5. `60-templates/config-and-bootstrap.templates.md`
 6. `99-inventory/source-inventory.md`
 
-### If you need to write or improve an `AGENTS.md`
-
+### If you want to write or improve an `AGENTS.md`
 1. `10-agents/README.md`
 2. `10-agents/global-vs-project.md`
 3. `60-templates/AGENTS.template.md`
 4. `40-instructions/project-bootstrap-overview-pattern.md`
 
-### If you need to build or standardize skills
-
+### If you want to build or standardize skills
 1. `20-skills/README.md`
 2. `20-skills/skill-authoring-guide.md`
 3. `20-skills/skill-blueprints.md`
 4. `60-templates/SKILL.template.md`
 
-### If you need to standardize MCP setup
-
+### If you want to standardize MCP setup
 1. `30-mcp/configured-mcps.md`
 2. `30-mcp/required-local-mcp-setup.md`
 3. `30-mcp/usage-and-onboarding.md`
 4. `60-templates/config-and-bootstrap.templates.md`
 
-### If you need reusable workflows and safety rules
-
-1. `50-workflows/operator-playbooks.md`
-2. `50-workflows/safety-and-portability-rules.md`
-3. `50-workflows/model-usage-guidance.md`
-
 ---
 
-## Suggested quick start
+## Quick start
 
 1. Read `00-overview/instruction-layering.md` to understand the intended document hierarchy.
-2. Install and verify Playwright, Serena, and Context7 using `30-mcp/required-local-mcp-setup.md`.
-3. Create or update your local Codex config from `60-templates/config-and-bootstrap.templates.md`.
-4. Create a repo `AGENTS.md` from `60-templates/AGENTS.template.md`.
-5. Create or refine skills with `20-skills/skill-authoring-guide.md` and `60-templates/SKILL.template.md`.
-6. If the repo is operationally complex, add a bootstrap overview using `40-instructions/project-bootstrap-overview-pattern.md`.
-7. Review `99-inventory/source-inventory.md` so you understand the provenance and limitations of the bundle.
+2. Use `30-mcp/required-local-mcp-setup.md` to establish baseline MCP tooling.
+3. Start from `60-templates/config-and-bootstrap.templates.md` when creating or standardizing a local setup.
+4. Use `60-templates/AGENTS.template.md` and `60-templates/SKILL.template.md` to create project-local guidance.
+5. Review `99-inventory/source-inventory.md` before assuming every pattern should be copied literally.
 
 ---
 
-## What this repo intentionally does NOT contain
+## Public source-of-truth maintenance rules
 
-This repo should not become a dumping ground for live operational state.
-
-It intentionally excludes:
-
-- secrets
-- tokens
-- auth files
-- session history
-- cached runtime state
-- logs
-- machine-specific paths unless converted to placeholders
-- client-specific or environment-specific values that do not generalize
-- raw copies of highly specific project runbooks that should be rewritten as templates
-
----
-
-## Source-of-truth rules for maintaining this repo
-
-If this repository is used as the GitHub source of truth, keep these rules in place:
+If this repository is used as the canonical GitHub source of truth, keep these rules in force:
 
 1. **Do not commit secrets**  
-   Keep credentials in `.env` or other ignored local files only.
+   Keep credentials only in ignored local files.
 
-2. **Prefer templates and patterns over literal environment copies**  
-   If something only works for one machine or one repo, generalize it first.
+2. **Prefer templates and patterns over raw environment copies**  
+   Rewrite or generalize machine-specific material before committing it.
 
-3. **Update provenance when adding derived material**  
-   If a document comes from a source artifact, reflect that in `99-inventory/source-inventory.md`.
+3. **Keep provenance clear**  
+   Update `99-inventory/source-inventory.md` when new source-derived docs are added.
 
-4. **Keep instruction layers aligned**  
-   If MCP expectations change, update the MCP docs, templates, and any related `AGENTS.md` guidance together.
+4. **Keep related guidance aligned**  
+   If MCP expectations or skill conventions change, update the corresponding templates and overview docs too.
 
-5. **Document dependencies explicitly**  
-   If a skill assumes an MCP, runtime, or auth dependency, say so clearly.
+5. **Preserve portability**  
+   Replace hostnames, tokens, customer details, and machine paths with placeholders unless there is a compelling reason not to.
 
-6. **Preserve portability**  
-   Replace local paths, hostnames, project names, and secrets with placeholders unless a real example is essential.
-
-7. **Keep the README current**  
-   If the repo layout or intended usage changes, update this file so the GitHub landing page remains accurate.
+6. **Keep the landing page current**  
+   The README should always accurately describe the repo’s purpose, structure, and maintenance expectations.
 
 ---
 
-## Security and secret handling
+## What should never be committed here
 
-This repository should be treated as documentation that is safe to publish.
+This repo should stay safe to publish.
 
-That means:
+Never commit:
+- secrets
+- API keys
+- tokens
+- auth files
+- logs
+- cached sessions
+- machine-specific runtime state
+- unreviewed raw copies of sensitive internal documentation
 
-- never store API keys, tokens, passwords, or auth headers in tracked files
-- use `.env` for local secrets only
-- commit `.env.example`, not `.env`
-- avoid embedding internal URLs, live service identities, or customer-specific operational details unless they have been intentionally generalized
+Use:
+- `.env` for local secrets only
+- `.env.example` for safe placeholders
+- templates and placeholders for anything environment-specific
+
+---
+
+## Contributing guidance
+
+When contributing:
+- keep markdown concise and skimmable
+- prefer reusable patterns over narrow one-off instructions
+- update README and inventory docs when repository scope changes
+- keep numbered folders and taxonomy coherent
+- maintain consistency between overview docs, templates, and reference docs
+
+For repo-local operating guidance, see `AGENTS.md`.
+
+---
+
+## License
+
+This repository is licensed under the MIT License. See `LICENSE`.
 
 ---
 
 ## Provenance and limitations
 
-This documentation bundle was derived from a real audited AI agent CLI environment and then rewritten into a portable form.
+This documentation bundle was derived from a real audited environment and rewritten into a portable form.
 
 That means:
+- some guidance is summarized from observed config and tool usage
+- some material is generalized from a single environment
+- some model/tool references are snapshots, not permanent truths
+- not every behavior described here should be treated as a public product guarantee
 
-- some guidance comes from observed configuration and skill patterns
-- some guidance is generalized from one specific environment
-- some references, such as model catalogs, are snapshots rather than permanent truths
-- some behaviors are inferred from installed tools/config rather than a public vendor spec
-
-For exact provenance and handling decisions, see:
-
+For provenance and handling decisions, see:
 - `00-overview/method-and-scope.md`
 - `99-inventory/source-inventory.md`
 
 ---
 
-## In one sentence
+## One-line summary
 
-This repository is the **source-of-truth GitHub documentation repo for AI agent CLI operating standards**, covering **instructions, `AGENTS.md`, skills, MCPs, Serena usage, workflows, templates, and supporting references** in a portable and sanitized form.
+This repository is a portable, GitHub-hosted **source of truth for AI agent CLI documentation standards** covering **instructions, `AGENTS.md`, skills, MCPs, Serena usage, workflows, templates, and provenance**.
