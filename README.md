@@ -100,6 +100,34 @@ These are strong defaults, not universal requirements. A markdown-only repo does
 5. Use `60-templates/server-bootstrap.prompt.md` when you want Codex CLI to perform a full new-server bootstrap.
 6. Use `99-inventory/source-inventory.md` to keep future changes grounded and portable.
 
+## How To Use This Repo
+
+Use this repo as a separate bootstrap checkout, not as a folder inside the target project.
+
+Typical layout:
+
+```text
+~/
+├── codex-bootstrap-docs/
+├── .codex/
+└── src/
+    └── <project>/
+```
+
+Recommended workflow:
+
+1. Clone this repo to a stable admin path such as `~/codex-bootstrap-docs`.
+2. Use `60-templates/config-and-bootstrap.templates.md` to create `~/.codex/config.toml`.
+3. Install and verify the MCPs your machine and project actually need.
+4. Clone the real project into its own working path such as `~/src/<project>`.
+5. Materialize the live project docs Codex will actually consume:
+   - project-root `AGENTS.md`
+   - optional bootstrap overview
+   - optional repo-local skills
+6. Keep this repo as the maintained source of truth, and periodically copy or regenerate the live artifacts when standards change.
+
+If you want Codex CLI to perform the bootstrap itself on a new Linux server, start from `60-templates/server-bootstrap.prompt.md`.
+
 ## Maintenance Rules
 
 If this repo is used as the canonical bootstrap reference:
