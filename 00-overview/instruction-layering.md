@@ -1,103 +1,122 @@
 # Instruction Layering
 
-This installation exposed a useful pattern: keep instructions in layers, and keep each layer focused.
+Codex already has built-in behavior. Your docs should supply the missing local decisions, not restate the whole product.
 
-## Recommended layers
+Use layers, and keep each layer narrow.
 
-### 1. Base model behavior
+## Recommended Layers
 
-Observed from the installed model catalog:
+### 1. Built-in Codex behavior
 
-- concise, pragmatic communication
-- preference for fast search tools such as `rg`
-- preference for parallel tool calls when independent
-- conservative editing behavior around dirty git trees
-- avoidance of destructive git commands
+This is the model and product behavior you do not maintain here.
 
-Use this layer for stable, general operating conventions that should apply everywhere.
+Do not copy generic rules like:
+
+- be concise
+- avoid destructive git commands
+- inspect before editing
+- use current docs when the question is version-sensitive
+
+Only document local rules that materially change how work should be done.
 
 ### 2. User or profile-level Codex config
 
-Observed via `~/.codex/config.toml`:
+Use `~/.codex/config.toml` for machine-level defaults such as:
 
 - default profile
 - default model
-- reasoning effort
-- sandbox/approval behavior
+- reasoning level
+- sandbox and approval defaults
 - trusted projects
 - MCP registrations
 - optional `model_instructions_file`
 
-Use this layer for operator preferences and machine-level defaults.
+This layer answers: "How should this installation default?"
 
-### 3. Project bootstrap overview
+### 3. Optional global guidance
 
-Observed as a separate overview document referenced by the Codex profile.
+If you maintain cross-repo guidance, keep it in one place such as:
 
-Use this layer for high-level project topology:
+- a home-level `AGENTS.md`
+- a profile `model_instructions_file`
+- a shared bootstrap doc
 
-- stack summary
-- runtime topology
-- key directories
-- deployment model
-- test expectations
-- logs and risks
+Use it for stable cross-repo rules:
 
-Do not overload it with low-level coding style or secrets.
+- secret handling
+- default docs lookup policy
+- default tool expectations
+- communication or review preferences
+
+This layer answers: "What should be true across many repos?"
 
 ### 4. Project `AGENTS.md`
 
-Observed at repo root.
+Use repo-local `AGENTS.md` for rules that actually vary by repo:
 
-Use this layer for:
-
-- repo structure
-- build/test commands
+- structure and important paths
+- build, test, and dev commands
 - coding conventions
-- project tooling requirements
-- commit/review expectations
-- environment caveats that truly matter to day-to-day work
+- repo-specific tool requirements
+- release or review guardrails
+- environment caveats that affect daily work
 
-### 5. Skills
+This layer answers: "How should work be done in this repo?"
 
-Observed globally and repo-locally.
+### 5. Project bootstrap overview
 
-Use skills for repeatable task families:
+Add a separate overview only when the project is too large for `AGENTS.md` alone.
+
+Good content:
+
+- stack summary
+- runtime topology
+- source tree landmarks
+- deployment model
+- key diagnostics and risks
+
+This layer answers: "How is this system arranged?"
+
+### 6. Skills
+
+Use skills for repeatable task families, not for general repo policy.
+
+Good candidates:
 
 - docs lookup
-- skill installation
-- site audits
+- install/bootstrap tasks
+- audit workflows
 - runtime operations
 - domain-specific workflows
 
-Skills should be narrower than `AGENTS.md` and should trigger only when relevant.
+This layer answers: "How should this recurring task type be handled?"
 
-### 6. Tool-specific config
+### 7. Tool-specific config
 
-Observed via Serena config and MCP registrations.
+Keep integration wiring in the tool layer itself:
 
-Use this layer for:
+- MCP server registrations
+- Serena project config
+- auth env vars
+- tool timeouts and modes
 
-- tool activation defaults
-- language backends
-- project trust/read-only settings
-- MCP endpoints and env bindings
+This layer answers: "How is this tool wired?"
 
-## Practical split
+## Practical Split
 
 | Put it in | If it answers |
 |---|---|
-| Base behavior | "How should the agent generally behave?" |
 | Codex config | "What should this installation default to?" |
-| Bootstrap overview | "How is this project/system arranged?" |
-| `AGENTS.md` | "How should work be done in this repo?" |
+| Global guidance | "What rules should apply across many repos?" |
+| Project `AGENTS.md` | "How should work be done in this repo?" |
+| Bootstrap overview | "How is this system arranged?" |
 | Skill | "How should this recurring task family be handled?" |
 | Tool config | "How does this integration get wired?" |
 
-## Anti-patterns
+## Anti-Patterns
 
-- Putting secrets in any instruction layer
-- Putting volatile production facts in global config
-- Turning `AGENTS.md` into a full runbook for every subsystem
-- Writing skills that duplicate large reference docs inline
-- Using a repo-local bootstrap overview as if it were a global policy file
+- putting secrets in any instruction layer
+- treating one machine snapshot as canonical truth
+- turning `AGENTS.md` into a full architecture manual
+- writing skills that duplicate large reference docs inline
+- requiring every repo to use every MCP

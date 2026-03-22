@@ -1,47 +1,60 @@
 # Skill Authoring Guide
 
-Source basis: distilled primarily from the installed `skill-creator` skill, with supporting patterns from other installed skills.
+Skills are for recurring task families that need extra workflow guidance, local references, or deterministic helpers.
 
-## Core principles
+Do not create a skill just to restate general Codex behavior.
+
+## When a Skill Is Worth Creating
+
+Create a skill when at least one of these is true:
+
+- the task family has a repeatable multi-step workflow
+- local references or schemas matter
+- deterministic scripts are better than ad hoc shell sequences
+- there are important guardrails or validations that Codex would not otherwise know
+
+If a short repo `AGENTS.md` section is enough, do not add a skill.
+
+## Core Principles
 
 ### Keep the trigger metadata strong
 
 The `name` and `description` in `SKILL.md` are the main trigger surface.
 
-The description should say:
+The description should clearly say:
 
 - what the skill does
 - when it should be used
-- what common request shapes should trigger it
+- what request shapes should trigger it
 
 ### Keep the body concise
 
 Assume Codex is already capable.
 
-Only include:
+Put only the high-value material in `SKILL.md`:
 
 - task-specific workflow
 - non-obvious constraints
-- resource-selection guidance
+- reference-selection guidance
 - validation requirements
 
-Move details into references, scripts, and assets.
+Move detail into references, scripts, and assets.
 
 ### Use progressive disclosure
 
 Recommended loading pattern:
 
-1. metadata always visible
-2. `SKILL.md` body loaded when triggered
-3. `references/`, `scripts/`, and `assets/` used only when needed
+1. metadata is always visible
+2. `SKILL.md` body loads when the skill triggers
+3. `references/`, `scripts/`, and `assets/` are used only when needed
 
 ### Match the degree of freedom to the task
 
-- High freedom: heuristics and general workflow
-- Medium freedom: preferred patterns and parameterized scripts
-- Low freedom: exact sequences for fragile operations
+- high freedom for heuristic workflows
+- medium freedom for preferred patterns with some variation
+- low freedom for fragile or security-sensitive operations
 
-## Recommended skill anatomy
+## Recommended Skill Anatomy
 
 ```text
 <skill-name>/
@@ -53,17 +66,17 @@ Recommended loading pattern:
 └── assets/
 ```
 
-## What to put where
+## What to Put Where
 
 ### `SKILL.md`
 
 Put:
 
 - purpose
-- scope
-- when to use / not use
-- workflow
+- when to use and not use it
+- core workflow
 - reference map
+- guardrails
 - validation checklist
 
 ### `references/`
@@ -71,10 +84,9 @@ Put:
 Put:
 
 - schema notes
-- API docs excerpts
-- policy notes
+- API or policy notes
 - long checklists
-- playbooks by variant
+- variant-specific guidance
 
 ### `scripts/`
 
@@ -89,28 +101,36 @@ Put:
 
 Put:
 
-- icons
 - templates
 - boilerplate starter files
-- artifacts used in output, not agent reasoning
+- files used in final output rather than in reasoning
 
-## Naming rules
+## Good Skill Categories
+
+Common high-value skill types:
+
+- docs lookup
+- install or bootstrap
+- audit
+- runtime operations
+- domain-specific implementation workflows
+
+## Naming Rules
 
 - use lowercase letters, digits, and hyphens
 - keep the name short and descriptive
 - name the folder exactly after the skill name
 
-## Recommended creation flow
+## Creation Flow
 
 1. Understand the task family with concrete examples.
 2. Identify reusable references, scripts, and assets.
-3. Create the skill scaffold.
+3. Create the scaffold.
 4. Write `SKILL.md`.
-5. Add resources.
+5. Add supporting resources.
 6. Validate.
-7. Forward-test on real tasks when appropriate.
 
-## Validation checklist
+## Validation Checklist
 
 - frontmatter is valid
 - description is trigger-oriented
@@ -120,15 +140,14 @@ Put:
 - no secret material is embedded
 - repo-specific assumptions are explicit
 
-## `agents/openai.yaml` guidance
+## `agents/openai.yaml` Guidance
 
-Useful fields observed in installed skills:
+Useful fields:
 
 - `interface.display_name`
 - `interface.short_description`
 - `interface.default_prompt`
-- optional icons
 - optional `dependencies`
 - optional policy flags such as implicit invocation
 
-Only include dependency declarations you intend to maintain.
+Only declare dependencies you are prepared to maintain.

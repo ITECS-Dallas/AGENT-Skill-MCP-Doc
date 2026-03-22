@@ -1,57 +1,54 @@
 # Serena Integration Guide
 
-Source basis: sanitized from `~/.serena/serena_config.yml`, project-level Serena config, and the Serena instructions surfaced during activation.
+Serena is a semantic coding layer. It is useful when you want symbol-aware navigation and precise edits, but it is not required for every repository.
 
-## What Serena is doing in this setup
+## What Serena Is Good At
 
-Serena was used as a semantic coding layer on top of the repo:
+Use Serena for:
 
 - project activation
 - onboarding state checks
 - symbol search
+- reference tracing
 - symbol-aware edits
-- project memories
 - language-server-backed code understanding
 
-## Important Serena config surfaces
+It adds the most value in medium or large codebases.
+
+## Important Serena Config Surfaces
 
 ### Global config
 
-Observed in `~/.serena/serena_config.yml`:
+Useful global settings usually include:
 
-- language backend
 - default modes
 - tool timeout
-- token-count estimator
 - globally ignored paths
 - registered projects
-- project Serena folder location
 
 ### Project config
 
-Observed in project-specific Serena config:
+Useful project-level settings usually include:
 
 - project name
-- language
+- primary language
 - read-only mode
-- tool enable/disable overrides
 - ignored paths
-- base/default modes
-- language list
+- tool overrides
 
-## Operational guidance
+## Operational Guidance
 
-### Activate before using
+### Activate before use
 
-If Serena is expected for a repo, activate the project first.
+If a repo expects Serena, activate the project first.
 
 ### Check onboarding state
 
-If onboarding has not been performed, complete it or explicitly decide not to depend on Serena memories.
+If onboarding has not been performed, either complete it or avoid assuming Serena memories exist.
 
 ### Prefer symbolic navigation first
 
-Good first tools:
+Good first actions:
 
 - project activation
 - symbols overview
@@ -59,39 +56,28 @@ Good first tools:
 - references lookup
 - targeted pattern search
 
-Use full file reads only when necessary.
+Use broad file reads only when needed.
 
-### Use Serena for precision, not everything
+### Use Serena where it adds value
 
-Serena is best for:
+Serena is strongest for:
 
 - understanding code structure
-- editing functions/classes/symbols precisely
-- finding references
+- finding references precisely
+- editing functions, classes, and symbols safely
 
-It is less relevant for:
+It is less useful for:
 
 - large non-code documents
 - external websites
 - generic shell operations outside the project
 
-## Good default mode pattern
+## Documentation Recommendations
 
-The audited Serena config defaulted to interactive + editing modes. That is a sensible default for active repo work.
+If Serena is required for a repo, say so in `AGENTS.md`.
 
-Recommended default:
-
-- `interactive` when collaboration is expected
-- `editing` when code changes are allowed
-
-Consider `read_only: true` for especially sensitive repos.
-
-## Documentation recommendations
-
-If Serena is a required tool for a repo, say so explicitly in `AGENTS.md`.
-
-Also document:
+Document:
 
 - when activation is required
 - whether onboarding is expected
-- whether Context7 or another docs MCP must be consulted before framework-dependent changes
+- whether another docs source must be consulted before framework-dependent changes

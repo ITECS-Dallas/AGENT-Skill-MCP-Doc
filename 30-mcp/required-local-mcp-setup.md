@@ -1,25 +1,16 @@
 # Required Local MCP Setup
 
-This guide makes one recommendation explicit:
+This repo does not assume one universal MCP stack.
 
-For a practical Codex CLI installation intended for software work, install and verify these three MCPs locally:
+For most software-oriented Codex CLI environments, start by evaluating three high-value MCPs:
 
-- Playwright
-- Serena
-- Context7
+- `serena`
+- `context7`
+- `playwright`
 
-These were the most important general-purpose MCPs in the audited installation.
+Install only the tools your workflows actually need.
 
-## Why these three are the baseline
-
-### Playwright
-
-Use for:
-
-- rendered-page verification
-- browser-only failures
-- client-side schema checks
-- DOM and console inspection
+## Why These Three Are Good Defaults
 
 ### Serena
 
@@ -28,149 +19,109 @@ Use for:
 - project activation
 - symbol-aware code navigation
 - reference tracing
-- precise code edits in supported languages
+- precise edits in supported languages
 
 ### Context7
 
 Use for:
 
-- library/framework documentation
+- current library and framework documentation
 - version-sensitive API behavior
-- implementation decisions that should be grounded in current docs
+- implementation choices that should be grounded in official docs
 
-## Verification command
+### Playwright
 
-Run:
+Use for:
+
+- rendered-page verification
+- browser-only failures
+- DOM and console inspection
+- client-side checks that raw HTTP cannot validate
+
+## Verify the CLI Surface First
+
+Before documenting install steps, verify the local Codex CLI command surface:
 
 ```bash
+codex mcp --help
+codex mcp add --help
+codex mcp get --help
 codex mcp list
 ```
 
-Your baseline should show enabled entries for:
+At minimum, you should be able to add, inspect, list, and remove MCP entries.
 
-- `playwright`
-- `serena`
-- `context7`
+## Example Install Commands
 
-## Installation patterns verified from the audited CLI
+These examples match a current Codex CLI command surface that supports stdio MCPs, URL MCPs, and stdio env injection. Adjust versions and auth details to match the current vendor instructions.
 
-The local Codex CLI on this machine supports:
-
-- `codex mcp add`
-- `codex mcp get`
-- `codex mcp list`
-- `codex mcp remove`
-
-### 1. Install Playwright MCP
+### Install Playwright
 
 ```bash
 codex mcp add playwright -- npx -y @playwright/mcp@latest --headless
 ```
 
-Verify:
-
-```bash
-codex mcp get playwright
-```
-
-Expected pattern:
-
-- transport: `stdio`
-- command: `npx`
-- args similar to `-y @playwright/mcp@latest --headless`
-
-### 2. Install Serena MCP
+### Install Serena
 
 ```bash
 codex mcp add serena -- uvx --from git+https://github.com/oraios/serena serena start-mcp-server --context codex
 ```
 
-Verify:
+### Install Context7 using a stdio package
 
 ```bash
-codex mcp get serena
+export CONTEXT7_API_KEY="<CONTEXT7_API_KEY>"
+codex mcp add context7 --env CONTEXT7_API_KEY="$CONTEXT7_API_KEY" -- npx -y @upstash/context7-mcp@latest
 ```
 
-Expected pattern:
-
-- transport: `stdio`
-- command: `uvx`
-- args similar to `--from git+https://github.com/oraios/serena serena start-mcp-server --context codex`
-
-### 3. Install Context7 MCP
-
-Start with:
+### Optional: install a hosted MCP by URL
 
 ```bash
-codex mcp add context7 --url https://mcp.context7.com/mcp
+codex mcp add <mcp-name> --url https://<HOST>/mcp
 ```
 
-Then verify:
+If the hosted MCP supports bearer-token auth, prefer:
 
 ```bash
-codex mcp get context7
+codex mcp add <mcp-name> --url https://<HOST>/mcp --bearer-token-env-var <TOKEN_ENV_VAR>
 ```
 
-Expected pattern:
+If an MCP requires custom headers beyond the `codex mcp add` flags, add the entry and then edit `~/.codex/config.toml` manually.
 
-- transport: `streamable_http`
-- url: `https://mcp.context7.com/mcp`
-
-## Context7 authentication note
-
-In the audited installation, Context7 also required an auth header in Codex config.
-
-Sanitized example:
-
-```toml
-[mcp_servers.context7]
-url = "https://mcp.context7.com/mcp"
-http_headers = { "CONTEXT7_API_KEY" = "<CONTEXT7_API_KEY>" }
-```
-
-If your Context7 deployment uses a bearer token instead, prefer the Codex CLI option that matches that auth model.
-
-If the hosted MCP requires custom headers beyond what `codex mcp add` can express in one command, add the server entry and then edit `~/.codex/config.toml` directly.
-
-## Recommended local prerequisites
+## Recommended Local Prerequisites
 
 Install or verify:
 
 - Node.js with `npx`
-- Python tooling with `uvx`
-- network access to the remote MCP endpoint for Context7
+- Python tooling with `uv` and `uvx`
+- browser dependencies if using Playwright
+- network access for any hosted MCP endpoint
 
-If Playwright needs browser dependencies in your environment, install those according to the Playwright package/runtime requirements for your OS.
-
-## Post-install smoke checks
+## Post-Install Checks
 
 Run:
 
 ```bash
 codex mcp list
-codex mcp get playwright
 codex mcp get serena
 codex mcp get context7
+codex mcp get playwright
 ```
 
-Then do one practical smoke check:
+Then do one real smoke check per tool:
 
-- use Serena on a repo activation
-- use Context7 on one library query
-- use Playwright on one rendered-page or DOM check
+- activate a repo with Serena
+- resolve one library lookup with Context7
+- run one rendered-page or DOM check with Playwright
 
-## AGENTS.md requirement to add
+Restart Codex after adding or changing MCPs so the updated configuration is picked up cleanly.
 
-Project `AGENTS.md` files should explicitly require these MCPs and their usage.
+## What to Put in `AGENTS.md`
 
-Recommended wording:
+Only document MCP requirements in a repo if the repo truly depends on them.
 
-```md
-## Assistant Tooling Requirements
-- Playwright, Serena, and Context7 MCPs must be installed in the local Codex CLI before working in this repository.
-- Serena must be activated for this repository before code navigation or editing work begins.
-- Context7 must be used before making changes that depend on library or framework behavior.
-- Playwright must be used for rendered-page verification, browser-based audits, and client-side/runtime checks when raw HTTP inspection is insufficient.
-```
+Useful wording fragments:
 
-Also update any repo bootstrap overview if the project depends heavily on these tools.
+- `Serena should be activated before code navigation or symbol-aware edits.`
+- `Context7 should be used before making framework- or library-dependent changes.`
+- `Playwright should be used when rendered browser behavior must be validated.`

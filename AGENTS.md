@@ -1,23 +1,22 @@
 # Repository Guidelines
 
 ## Project Purpose & Structure
-This repository is a documentation-first source of truth for AI agent CLI operating standards.
+This repository is a documentation-first bootstrap reference for Codex CLI setup standards.
 
 Primary content areas:
-- `00-overview/` - scope, audit method, and instruction-layering guidance
+- `00-overview/` - instruction-layering guidance
 - `10-agents/` - repo-local `AGENTS.md` guidance and global-vs-project split
-- `20-skills/` - skill strategy, blueprints, and authoring guidance
-- `30-mcp/` - MCP setup, usage, and onboarding guidance
+- `20-skills/` - skill authoring guidance
+- `30-mcp/` - MCP setup and onboarding guidance
 - `40-instructions/` - bootstrap overview and Serena integration patterns
-- `50-workflows/` - operator playbooks, safety rules, and model guidance
+- `50-workflows/` - safety and portability rules
 - `60-templates/` - reusable templates for config, `AGENTS.md`, and `SKILL.md`
-- `70-reference/` - supporting reference notes
-- `99-inventory/` - provenance and source inventory
+- `99-inventory/` - provenance and maintenance inventory
 
 Top-level files:
 - `README.md` - public GitHub landing page and primary repo overview
 - `LICENSE` - repository license
-- `.env.example` - safe example for local secret configuration
+- `.env.example` - safe placeholder file for optional local secrets
 
 ## Build, Test, and Development Commands
 This repo does not have an application build pipeline. The main work is reviewing and maintaining markdown documents.
@@ -31,7 +30,7 @@ Useful commands:
 Validation is primarily editorial:
 - check that headings, paths, and examples are internally consistent
 - confirm `.env` stays untracked and `.env.example` stays safe to commit
-- if you add new derived guidance, update `99-inventory/source-inventory.md`
+- if you change repo scope or evidence basis, update `99-inventory/source-inventory.md`
 
 ## Documentation Style & Naming Conventions
 - Use Markdown for all primary content.
@@ -40,7 +39,8 @@ Validation is primarily editorial:
 - Keep the numbered folder taxonomy intact unless there is a strong structural reason to change it.
 - Preserve portability: use placeholders like `<PROJECT_ROOT>` instead of live machine-specific values.
 - Preserve sanitization: do not add secrets, tokens, auth headers, or client-specific confidential details.
-- Prefer patterns, templates, and blueprints over brittle environment-specific runbooks.
+- Prefer patterns and templates over brittle environment-specific runbooks.
+- Do not reintroduce snapshot docs that only describe one audited machine or one temporary model catalog.
 
 ## Assistant Tooling Requirements
 - Serena is helpful for repo navigation and memory, but it is not mandatory for routine markdown edits in this docs-only repo.
@@ -73,6 +73,7 @@ Before finalizing changes:
 - Keep `60-templates/` aligned with the guidance in `10-agents/`, `20-skills/`, and `30-mcp/`.
 - Keep `99-inventory/source-inventory.md` updated when adding new derived or transformed docs.
 - Do not turn this repo into a dump of raw environment state; rewrite, sanitize, or template instead.
+- Treat this repo as a bootstrap reference, not as a mirror of one installation.
 
 ## Skills
 This repository currently does not define repo-local executable skills. It documents skill design and usage patterns instead.

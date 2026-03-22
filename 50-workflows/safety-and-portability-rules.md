@@ -1,6 +1,6 @@
 # Safety and Portability Rules
 
-These rules are synthesized from the audited installation’s model conventions, repo guidance, and skill patterns.
+These rules are meant to stay stable even when the surrounding toolchain evolves.
 
 ## Safety rules
 
@@ -38,5 +38,3 @@ These rules are synthesized from the audited installation’s model conventions,
 ## Release / ship rule to generalize
 
 Before committing or shipping from a shared working tree, inspect the whole tree rather than assuming only your touched files matter.
-
-This rule came from a project-specific repo, but it generalizes well to collaborative environments.

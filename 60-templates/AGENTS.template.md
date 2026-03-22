@@ -24,19 +24,18 @@ Document:
 - formatting tools or linters
 
 ## Assistant Tooling Requirements
-- State whether Playwright, Serena, and Context7 are required.
+- State only the tools this repo actually requires.
 - State whether Serena must be activated before work begins.
 - State whether Context7 is required before framework-dependent changes.
 - State whether Playwright is required for rendered/browser-based verification.
 - State any deployment/release guardrails.
 - State whether skills should be preferred for specific task families.
 
-Recommended baseline wording:
+Recommended wording fragments:
 
-- Playwright, Serena, and Context7 MCPs must be installed in the local Codex CLI before working in this repository.
-- Serena must be activated for this repository before code navigation or editing work begins.
-- Context7 must be used before making changes that depend on library or framework behavior.
-- Playwright must be used for rendered-page verification, browser-based audits, and client-side/runtime checks when raw HTTP inspection is insufficient.
+- Serena should be activated before code navigation or symbol-aware edits in this repository.
+- Context7 should be used before making changes that depend on current library or framework behavior.
+- Playwright should be used for rendered-page verification, browser-based audits, and client-side/runtime checks when raw HTTP inspection is insufficient.
 
 ## Testing Guidelines
 Document:

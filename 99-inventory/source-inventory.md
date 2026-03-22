@@ -1,49 +1,44 @@
 # Source Inventory
 
-This inventory lists the discovered source categories, where they were found, how they were handled, and why.
+This repo is no longer meant to preserve one audited environment. It keeps only the durable guidance that is useful for bootstrapping Codex CLI installations and repo-local instructions.
 
-| Source category | Found at | Handling | Why |
-|---|---|---|---|
-| Codex user config | `~/.codex/config.toml` | rewritten + templated | valuable structure, but contained machine-specific paths and credential-bearing MCP config |
-| Codex MCP command help | local `codex mcp --help`, `codex mcp add --help`, `codex mcp get`, `codex mcp list` | summarized | used to verify current CLI installation syntax for the MCP setup guide |
-| Codex version metadata | `~/.codex/version.json` | summarized | useful for audit context only |
-| Codex model catalog | `~/.codex/models_cache.json` | summarized | useful for model guidance; too volatile to copy as canonical truth |
-| Codex auth file | `~/.codex/auth.json` | excluded | secret-bearing |
-| Codex history | `~/.codex/history.jsonl` | excluded | session/history state, not portable |
-| Codex SQLite state/log files | `~/.codex/logs_*.sqlite`, `~/.codex/state_*.sqlite` | excluded | internal runtime state |
-| Codex sessions | `~/.codex/sessions/` | excluded | session state |
-| Codex shell snapshots | `~/.codex/shell_snapshots/` | excluded | environment history, not documentation |
-| Global system skill: OpenAI docs | `~/.codex/skills/.system/openai-docs/` | rewritten + summarized | portable idea; dependency assumptions must be documented, not copied blindly |
-| Global system skill: skill creator | `~/.codex/skills/.system/skill-creator/` | rewritten + distilled | highly reusable guidance |
-| Global system skill: skill installer | `~/.codex/skills/.system/skill-installer/` | rewritten + summarized | portable pattern with script/dependency caveats |
-| Global custom skill: SEO audit | `~/.codex/skills/seo-audit/` | excluded as direct copy; pattern noted | heavily site-specific |
-| Repo `AGENTS.md` | `<REPO_ROOT>/AGENTS.md` | rewritten into template and guidance | structurally useful, but repo-specific verbatim |
-| Repo bootstrap overview | `<REPO_ROOT>/CODEX-BOOTSTRAP-OVERVIEW.md` | converted to generic pattern | valuable outline, too environment-specific to copy |
-| Repo-local skills: runtime/site/forms/chatbot/content | `<REPO_ROOT>/skills/` | converted to blueprints | useful task-family patterns, but domain/repo-specific details removed |
-| Serena global config | `~/.serena/serena_config.yml` | summarized | reusable tool-setup guidance |
-| Serena project config | `~/.serena/project.yml`, `~/.serena/projects.yml` | summarized | useful structure for project registration and modes |
-| Serena logs | `~/.serena/logs/` | excluded | runtime logs |
-| Serena global memories | `~/.serena/memories/global/` | noted as absent | nothing reusable discovered there |
-| MCP logs | `~/.mcp/data/*.log` | excluded | runtime logs only |
-| MCP resource catalogs | runtime query via MCP tools | summarized as empty | useful limitation note: configured MCPs did not expose resources/templates here |
+## Current Evidence Basis
 
-## Output mapping
+| Source | Used for | Handling rule |
+|---|---|---|
+| `codex --help`, `codex mcp --help`, `codex mcp add --help`, `codex mcp get --help`, `codex mcp list` | current CLI command surface and install examples | summarize, do not treat as a permanent product spec |
+| local `~/.codex/config.toml` patterns | starter config templates | rewrite into placeholders; never copy live values |
+| installed system skills such as `skill-creator` and `skill-installer` | skill-authoring guidance | distill patterns, not verbatim copies |
+| local Serena config patterns | Serena integration guidance | summarize only the reusable setup ideas |
+| official OpenAI docs and guidance | claims about Codex instruction layering and product behavior | prefer official docs over local inference when updating vendor-specific guidance |
 
-| Output doc(s) | Primary source basis |
+## Canonical Doc Set Kept
+
+| Path | Why it stays |
 |---|---|
-| `00-overview/*` | config + repo instructions + skills |
-| `10-agents/*` | repo `AGENTS.md` |
-| `20-skills/*` | system skills + repo skill patterns |
-| `30-mcp/*` | Codex config + skill dependency declarations |
-| `30-mcp/required-local-mcp-setup.md` | Codex config + live Codex CLI MCP command surface |
-| `40-instructions/*` | Serena config + bootstrap overview pattern |
-| `50-workflows/*` | model conventions + repo guidance + skill workflows |
-| `60-templates/*` | sanitized config/instruction/skill patterns |
-| `70-reference/*` | directory layout + model catalog summary |
+| `00-overview/instruction-layering.md` | durable split between config, global guidance, repo guidance, skills, and tool config |
+| `10-agents/*` | practical guidance for repo `AGENTS.md` files |
+| `20-skills/skill-authoring-guide.md` | durable skill-authoring guidance |
+| `30-mcp/*` | MCP setup and usage guidance that new installs still need |
+| `40-instructions/*` | bootstrap overview and Serena integration patterns |
+| `50-workflows/safety-and-portability-rules.md` | stable safety rules that are not tied to one tool version |
+| `60-templates/*` | the highest-value reusable outputs in the repo |
+| `99-inventory/source-inventory.md` | maintenance and provenance control point |
 
-## Limitations
+## Removed from Canonical Scope
 
-- No generic user-level `AGENTS.md` was found outside the repo.
-- No reusable Serena global memories were present.
-- MCP resources/templates were not exposed by the configured servers during this audit.
-- Some system behavior is inferred from installed configs and skill docs rather than from a public Codex spec.
+These topics were intentionally trimmed because they were too snapshot-heavy, redundant, or installation-specific:
+
+- audited-environment method notes
+- discovered model catalogs
+- local filesystem layout summaries
+- environment-specific MCP inventories
+- generic operator playbooks that mainly restated built-in Codex behavior
+- skill catalog summaries that did not add much beyond the template and guide
+
+## Maintenance Rules
+
+1. If you add Codex CLI commands, verify them against the current CLI help first.
+2. If you add vendor-specific guidance, verify it against current official docs first.
+3. If you derive examples from a real machine, rewrite them into placeholders before committing.
+4. If you change canonical scope, update `README.md`, `AGENTS.md`, templates, and this inventory together.

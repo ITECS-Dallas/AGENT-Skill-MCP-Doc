@@ -2,20 +2,36 @@
 
 ## 1. Codex `config.toml` template
 
+This template is intentionally written as a full-access, high-autonomy Codex CLI profile.
+
+For the current CLI surface, the highest persistent autonomy exposed through `config.toml` is:
+
+- `approval_policy = "never"`
+- `sandbox_mode = "danger-full-access"`
+- trusted workspace and project paths
+- `web_search = "live"`
+- `features.multi_agent = true`
+
+The CLI also exposes `--dangerously-bypass-approvals-and-sandbox` for one-off runs. That is a command-line flag, not a persisted `config.toml` key.
+
+Verify keys against the current Codex CLI help and official docs before treating this as canonical. Use it as a starter, not as a frozen spec.
+
 ```toml
 profile = "<PROFILE_NAME>"
 model = "<DEFAULT_MODEL>"
 model_reasoning_effort = "<REASONING_LEVEL>"
-web_search = "<WEB_SEARCH_MODE>"
+web_search = "live"
 
 [profiles.<PROFILE_NAME>]
-model = "<MODEL>"
-approval_policy = "<APPROVAL_POLICY>"
-sandbox_mode = "<SANDBOX_MODE>"
-personality = "<PERSONALITY>"
+model = "<DEFAULT_MODEL>"
+approval_policy = "never"
+sandbox_mode = "danger-full-access"
 trusted-workspace = true
+personality = "pragmatic"
+model_reasoning_effort = "<REASONING_LEVEL>"
+web_search = "live"
 # Optional:
-model_instructions_file = "<CONFIG_PATH>/bootstrap-overview.md"
+# model_instructions_file = "<CONFIG_PATH>/bootstrap-overview.md"
 
 [projects."<PROJECT_ROOT>"]
 trust_level = "trusted"
@@ -23,19 +39,23 @@ trust_level = "trusted"
 [features]
 multi_agent = true
 
+[mcp_servers.serena]
+command = "uvx"
+args = ["--from", "git+https://github.com/oraios/serena", "serena", "start-mcp-server", "--context", "codex"]
+startup_timeout_sec = 30
+
+[mcp_servers.context7]
+command = "npx"
+args = ["-y", "@upstash/context7-mcp@latest"]
+
+[mcp_servers.context7.env]
+CONTEXT7_API_KEY = "<CONTEXT7_API_KEY>"
+
 [mcp_servers.playwright]
 command = "npx"
 args = ["-y", "@playwright/mcp@latest", "--headless"]
 startup_timeout_sec = 120
 tool_timeout_sec = 180
-
-[mcp_servers.context7]
-url = "<CONTEXT7_MCP_URL>"
-http_headers = { "CONTEXT7_API_KEY" = "<CONTEXT7_API_KEY>" }
-
-[mcp_servers.serena]
-command = "uvx"
-args = ["--from", "git+https://github.com/oraios/serena", "serena", "start-mcp-server", "--context", "codex"]
 
 [mcp_servers.<MCP_SERVER_NAME>]
 command = "<COMMAND>"
@@ -43,19 +63,29 @@ args = ["<ARG1>", "<ARG2>"]
 
 [mcp_servers.<MCP_SERVER_NAME>.env]
 <ENV_VAR_NAME> = "<VALUE>"
+
+# Alternative hosted MCP pattern:
+# [mcp_servers.<REMOTE_MCP_NAME>]
+# url = "https://<HOST>/mcp"
+```
+
+If you want the closest one-off equivalent to "everything unlocked" for a single run, invoke Codex with:
+
+```bash
+codex exec --dangerously-bypass-approvals-and-sandbox -C <PROJECT_ROOT> "<PROMPT>"
 ```
 
 ## Baseline MCP install commands
 
-These commands were verified against the audited local Codex CLI command surface:
+These commands match a current Codex CLI command surface with `codex mcp add` support for stdio servers, hosted URL servers, and stdio env injection:
 
 ```bash
 codex mcp add playwright -- npx -y @playwright/mcp@latest --headless
 codex mcp add serena -- uvx --from git+https://github.com/oraios/serena serena start-mcp-server --context codex
-codex mcp add context7 --url https://mcp.context7.com/mcp
+codex mcp add context7 --env CONTEXT7_API_KEY="$CONTEXT7_API_KEY" -- npx -y @upstash/context7-mcp@latest
 ```
 
-If Context7 needs custom headers, edit `~/.codex/config.toml` after adding it.
+If a hosted MCP needs bearer auth, prefer `--bearer-token-env-var`. If it needs custom headers beyond the CLI flags, edit `~/.codex/config.toml` after adding it.
 
 ## 2. Bootstrap overview template
 
@@ -85,11 +115,21 @@ If Context7 needs custom headers, edit `~/.codex/config.toml` after adding it.
 - name: <PROFILE_NAME>
 - model: <DEFAULT_MODEL>
 - reasoning: <REASONING_LEVEL>
+- approval policy: never
+- sandbox mode: danger-full-access
+- trusted workspace: true
+- web search: live
+- multi-agent feature: true
+
+## Global guidance
+- optional home-level `AGENTS.md` or profile instructions file
+- default approval and sandbox policy
+- default docs lookup expectations
 
 ## MCPs
-- playwright: rendered-page and browser automation
 - serena: semantic code navigation and project activation
 - context7: library/framework documentation lookup
+- playwright: rendered-page and browser automation
 - <MCP_SERVER_NAME>: <purpose>
 
 ## Required local runtimes
@@ -99,16 +139,16 @@ If Context7 needs custom headers, edit `~/.codex/config.toml` after adding it.
 
 ## Repo-local instructions
 - `AGENTS.md`
-- bootstrap overview
+- optional bootstrap overview
 - repo-local skills
 
 ## Validation checklist
 - [ ] Codex starts with expected profile
-- [ ] Playwright, Serena, and Context7 are installed and enabled
+- [ ] required MCPs are installed and enabled
 - [ ] required MCPs respond
-- [ ] Serena activates for the project
+- [ ] Serena activates for the project if the repo depends on it
 - [ ] key skills are discoverable
-- [ ] test browser automation works if enabled
+- [ ] browser automation works if Playwright is required
 ```
 
 ## 4. Serena project config starter

@@ -74,4 +74,5 @@ policy:
 - Keep `SKILL.md` concise.
 - Move detail into references.
 - Use scripts for deterministic repeated tasks.
+- Do not use a skill to restate general Codex behavior.
 - Do not store secrets in the skill.
